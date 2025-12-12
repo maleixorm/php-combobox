@@ -19,6 +19,18 @@ $query_estados = $conn->query($sql_estados) or die($conn->error);
                 <option <?php if(isset($_GET['estado']) && $_GET['estado'] == $estado['id']) echo "selected"; ?> value="<?= $estado['id'] ?>"><?= $estado['nome'] ?></option>
             <?php } ?>
         </select>
+        <?php if(isset($_GET['estado'])) { ?>
+            <select name="cidade" required>
+                <option value="">Selecione a cidade</option>
+                <?php 
+                    $estado_selecionado = $conn->real_escape_string($_GET['estado']);
+                    $sql_cidades = "SELECT * FROM cidades WHERE id_estado = '$estado_selecionado'";
+                    $query_cidades = $conn->query($sql_cidades) or die($conn->error);
+                    while ($cidade = $query_cidades->fetch_assoc()) { ?>
+                        <option <?php if(isset($_GET['cidade']) && $_GET['cidade'] == $cidade['id']) echo "selected"; ?> value="<?= $cidade['id'] ?>"><?= $cidade['nome'] ?></option>
+                    <?php } ?>
+            </select> 
+        <?php } ?> 
         <button type="submit">Avançar</button>
     </form>
 </body>

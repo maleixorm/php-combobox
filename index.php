@@ -1,9 +1,7 @@
 <?php
-
 include("conexao.php");
 $sql_estados = "SELECT * FROM estados ORDER BY nome ASC";
 $query_estados = $conn->query($sql_estados) or die($conn->error);
-
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +14,10 @@ $query_estados = $conn->query($sql_estados) or die($conn->error);
 <body>
     <form action="" method="get">
         <select name="estado" required>
-            <option value="" disabled>Selecione um estado</option>
+            <option value="">Selecione um estado</option>
+            <?php while ($estado = $query_estados->fetch_assoc()) { ?>
+                <option <?php if(isset($_GET['estado']) && $_GET['estado'] == $estado['id']) echo "selected"; ?> value="<?= $estado['id'] ?>"><?= $estado['nome'] ?></option>
+            <?php } ?>
         </select>
         <button type="submit">Avançar</button>
     </form>
